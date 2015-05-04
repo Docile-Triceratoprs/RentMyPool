@@ -38,7 +38,7 @@ app.post('/list', function(req, res){
 
 app.post('/uploadimg', function(req, res){
   console.log('Uploading');
-  console.log(JSON.stringify(req.file));
+  console.log( req.files);
   res.status(201).send('1');
 });
 

@@ -25,23 +25,33 @@ var uploadImg = function () {
 }
 
 var ImgUploadContent = React.createClass({
+  handleSubmit: function (e) {
+    e.preventDefault();
+    var form = new FormData();
+    form.append("file",e.target.userPhoto.files[0])
+    var xhr = new XMLHttpRequest();
+    xhr.open('post', '/uploadimg', true);
+    xhr.onload= function () {
+      console.log("loaded.");
+    }
+    xhr.send(form);
+  },
+
   render: function () {
     return (
       <div className="uploadView">
         <h1>Upload Image</h1>
         <form id="uploadForm"
-          enctype="multipart/form-data"
-          action="/uploadimg"
-          method="post">
+          onSubmit={this.handleSubmit}>
           <input type="file" id="userPhotoInput" name="userPhoto" />
-        </form>
 
-      <span id="status" />
-      <img id="uploadedImage" />
-      <button type="button" onClick={uploadImg}>Upload to Server</button>
+          <span id="status" />
+          <img id="uploadedImage" />
+          <input type="submit" />
+        </form>
     </div>
     );
   }
 
 });
-
+  
