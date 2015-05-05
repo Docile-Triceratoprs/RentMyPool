@@ -1,6 +1,8 @@
 
 var SignUpContent = React.createClass({
 
+  mixins:[ReactRouter.Navigation],
+
   getInitialState: function () {
     return {
       username: "Username",
@@ -10,17 +12,16 @@ var SignUpContent = React.createClass({
 
   handleSubmit: function (e) {
     e.preventDefault();
-    
+    var self = this;
     $.ajax({
       url: "/signup",
       method: "POST",
       contentType: "application/json",
       data: JSON.stringify(this.state),
-      success: function (){
-        console.log("POST Successful.");
-      },
-      error: function (err) {
-        console.log("Error:", err)
+      statusCode: {
+        302: function (data) {
+          self.transitionTo(data.responseText);
+        }
       }
     });
   },

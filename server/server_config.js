@@ -12,10 +12,7 @@ app.use(multer({ dest: './uploads/'}))
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client'));
 
-
-
-
-app.get('/rent', function(req, res){
+app.get('/rentItems', function(req, res){
   Item.find({}, function(err, docs){
     if(!err){
       res.status(200).send({results: docs});
@@ -25,6 +22,17 @@ app.get('/rent', function(req, res){
     }
   });
 });
+
+app.get('*', function (req, res) {
+  var options = {
+    root: __dirname + '/../client',
+  };
+  res.sendFile('index.html', options, function (err) {
+    if(err) console.log(err);
+  });
+});
+
+
 
 app.post('/list', function(req, res){
   console.log(req.body)
@@ -63,13 +71,13 @@ app.post('/signup', function(req, res) {
         }
         else {
           console.log('successful signup');
-          res.status(201).send({success: 'user info saved successfully!'});
+          res.status(302).send("Login");
         }
       });
     }
     else {
       console.log('username is already taken!', user);
-      res.redirect('/signup');
+      res.status(302).send('Sign Up');
     }
   });
 });
@@ -89,18 +97,18 @@ app.post('/login', function(req, res) {
         else {
           if(match) {
             console.log('successful login!');
-            res.redirect('/index')
+            res.status(302).send('/');
           } 
           else {
             console.log('password fail!');
-            res.redirect('/login');
+            res.status(302).send('Login');
           }
         }
       });
     }
     else {
       console.log('username does not exist')
-      res.redirect('/login');
+      res.status(302).send('Login');
     }
   });
 });

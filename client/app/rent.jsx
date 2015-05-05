@@ -33,8 +33,8 @@ var RentContent = React.createClass({
 
   componentDidMount: function () {
     initializeMap();
-    $.get("/rent", function (data) {
-      console.log("GET Success");
+    $.get("/rentItems", function (data) {
+      console.log("GET Success", data);
       this.setState({data:data.results});
     }.bind(this));
   },

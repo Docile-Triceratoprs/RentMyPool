@@ -58,7 +58,7 @@ var routing = function () {
         </Route>
       );
 
-  ReactRouter.run(routes, function (Handler) {
+  ReactRouter.run(routes, ReactRouter.HistoryLocation, function (Handler) {
     React.render(<Handler />, $('body')[0]);
   });
 };
