@@ -1,3 +1,19 @@
+var ListEntry = React.createClass({
+  
+  handleClick: function () {
+    Actions.entryClicked.triggerAsync(this.props);
+  },
+
+  render: function () {
+    return (
+        <div className="listEntry" onClick={this.handleClick}>
+        {this.props.name +' - ' + this.props.address + ' - ' + this.props.price}
+        </div>
+      );
+  }
+});
+
+
 var Listings = React.createClass({
 
   render: function () {
@@ -65,4 +81,3 @@ var RentContent = React.createClass({
     );
   }
 });
-
