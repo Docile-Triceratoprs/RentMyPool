@@ -14,7 +14,6 @@ var Listings = React.createClass({
   }
 });
 
-
 var GoogleMap = React.createClass({
 
   mixins: [Reflux.connect(GoogleMapsStore, "addr")],
