@@ -12,7 +12,6 @@ app.use(multer({ dest: './uploads/'}))
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client'));
 
-
 app.get('/rent', function(req, res){
   console.log(req.body);
   var date = req.body.date || '2015/05/06';
