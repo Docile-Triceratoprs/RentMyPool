@@ -1,7 +1,3 @@
-var testData = [{name : 'John', address : 'San Francisco', price : '1.00'},
-  {name : 'David', address : 'Germany', price : '600000000.00'}];
-
-
 var Listings = React.createClass({
 
   render: function () {
@@ -33,10 +29,20 @@ var RentContent = React.createClass({
 
   componentDidMount: function () {
     initializeMap();
-    $.get("/rentItems", function (data) {
-      console.log("GET Success", data);
-      this.setState({data:data.results});
-    }.bind(this));
+    var self = this;
+    $.ajax({
+      url: "/rent",
+      method: "GET",
+      contentType: "application/json",
+      data: JSON.stringify('2015/05/06'),
+      success: function (data){
+        console.log("GET Successful.");
+        self.setState({data:data.results});
+      },
+      error: function (err) {
+        console.log("Error:", err)
+      }
+    });
   },
   
   render: function () {
