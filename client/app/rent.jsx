@@ -84,7 +84,6 @@ var RentContent = React.createClass({
 
   renderData: function (data) {
     this.setState({data:data.results});
-
   },
   
   render: function () {
