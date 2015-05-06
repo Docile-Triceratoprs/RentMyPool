@@ -15,53 +15,23 @@ var Listings = React.createClass({
 });
 
 
-  var geocoder = new google.maps.Geocoder();
-    var map;
-    var oldMarker;
+
 var GoogleMap = React.createClass({
 
-  mixins: [Reflux.ListenerMixin],
+  mixins: [Reflux.connect(GoogleMapsStore, "addr")],
 
   getInitialState: function () {
     return {addr: this.props.initialAddr};
   },
 
-  updateMap: function (props) {
-    this.setState({ addr: props.address });
-  },
-
-  codeAddress: function (address) {
-    if (oldMarker) oldMarker.setMap(null);
-    geocoder.geocode( { 'address': address}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        map.setCenter(results[0].geometry.location);
-        var marker = new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location
-        });
-        oldMarker = marker;
-      } else {
-        alert('Geocode was not successful for the following reason: ' + status);
-      }
-    });
-  },
-
-  componentDidMount: function () {
-
-    this.listenTo(ListEntryStore, this.updateMap.bind(this))
-    
-    var latlng = new google.maps.LatLng(-34.397, 150.644);
-    var mapOptions = {
-      zoom: 14,
-      center: latlng
-    }
-    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  componentWillMount: function () {
+    Actions.mapWillMount.triggerAsync(this.state.addr)
   },
 
   render: function () {
+    Actions.codeAddress.triggerAsync(this.state.addr);
     return ( 
       <div id="map-canvas">
-        {this.codeAddress(this.state.addr)}
       </div>
     );
   }
@@ -78,16 +48,16 @@ var RentContent = React.createClass({
     };
   },
   componentWillMount: function () {
-    this.listenTo(ListStore, this.renderData.bind(this));
     Actions.getRentItems.triggerAsync();
+    this.listenTo(ListStore, this.renderData);
   },
 
   renderData: function (data) {
-    this.setState({data:data.results});
+    this.setState({data: data});
   },
   
   render: function () {
-    
+
     return (
       <div>
         <h1>Rent a Pool</h1>

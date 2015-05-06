@@ -1,4 +1,6 @@
 var Actions = Reflux.createActions([
   "entryClicked",
-  "getRentItems"
+  "getRentItems",
+  "mapWillMount",
+  "codeAddress"
 ]);
